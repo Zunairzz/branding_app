@@ -1,5 +1,6 @@
 package com.example.branding_app.Utils;
 
+import com.example.branding_app.dto.UserDto;
 import com.example.branding_app.model.User;
 
 import java.util.HashMap;
@@ -18,5 +19,15 @@ public class UserModelMapping {
         data.put("password", user.getPassword());
         data.put("address", user.getAddress());
         return data;
+    }
+
+    public static UserDto mapToUserDto(Map<String, Object> data) {
+        UserDto userDto = new UserDto();
+        userDto.setId(data.get("id").toString());
+        userDto.setName(data.get("name").toString());
+        userDto.setEmail(data.get("email").toString());
+        userDto.setPassword(data.get("password").toString());
+        userDto.setAddress(data.get("address").toString());
+        return userDto;
     }
 }
