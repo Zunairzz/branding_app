@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseManager {
-    public static ResponseEntity<String> sendSuccessResponse() {
+    public static ResponseEntity<String> sendSuccessResponse(Object o) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("content-type", "application/json");
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("message", "success");
-        jsonObject.addProperty("response", "data added successfully");
+        jsonObject.add("data", gson.toJsonTree(o));
         return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.OK);
     }
 
