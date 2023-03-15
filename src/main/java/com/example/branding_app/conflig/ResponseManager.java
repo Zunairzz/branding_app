@@ -25,4 +25,14 @@ public class ResponseManager {
         jsonObject.addProperty("message", "error");
         return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.BAD_REQUEST);
     }
+
+    public static ResponseEntity<String> sendSuccessResponse(String response) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("content-type", "application/json");
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message", "success");
+        jsonObject.addProperty("response", response);
+        return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.OK);
+    }
 }

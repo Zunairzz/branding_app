@@ -6,6 +6,8 @@ import com.example.branding_app.Utils.Response;
 import com.example.branding_app.conflig.ResponseManager;
 import com.example.branding_app.dto.UserDto;
 import com.example.branding_app.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,11 +21,14 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 public class UserController {
+
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     UserService userService;
 
     @RequestMapping(value = GlobalConstants.USER, method = RequestMethod.POST)
     public ResponseEntity<String> saveUser(@Validated @RequestBody UserDto user) {
+        logger.info("Post request received!");
         Response<UserDto> response = userService.saveUser(user);
         if (response.getCode().getState()) {
             return ResponseManager.sendSuccessResponse(response.getData());
@@ -34,9 +39,21 @@ public class UserController {
 
     @RequestMapping(value = GlobalConstants.USER, method = RequestMethod.PUT)
     public ResponseEntity<String> updateUser(@Validated @RequestBody UserDto userDto) throws IOException, ExecutionException, InterruptedException {
+        logger.info("Update request received for userId: " + userDto.getId());
         Response<UserDto> response = userService.updateUser(userDto);
         if (response.getCode().getState()) {
-            return ResponseManager.sendSuccessResponse(response.getCode());
+            return ResponseManager.sendSuccessResponse(response.getData());
+        } else {
+            return ResponseManager.sendErrorResponse();
+        }
+    }
+
+    @RequestMapping(value = GlobalConstants.USER, method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteUser(@RequestBody UserDto userDto) throws Exception {
+        logger.info("Delete request received for userId: " + userDto.getId());
+        Response<UserDto> response = this.userService.deleteUserById(userDto);
+        if (response.getCode().getState()) {
+            return ResponseManager.sendSuccessResponse(response.getMessage());
         } else {
             return ResponseManager.sendErrorResponse();
         }

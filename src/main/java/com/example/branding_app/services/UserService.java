@@ -9,4 +9,6 @@ import java.util.concurrent.ExecutionException;
 public interface UserService {
     Response<UserDto> saveUser(UserDto user);
     Response<UserDto> updateUser(UserDto userDto) throws IOException, ExecutionException, InterruptedException;
+
+    Response<UserDto> deleteUserById(UserDto userDto) throws Exception;
 }
