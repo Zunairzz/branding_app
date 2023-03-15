@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.WriteResult;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -35,5 +36,11 @@ public class UserRepository {
             return user;
         }
         return null;
+    }
+
+    public boolean deleteUserById(String id) throws Exception {
+        Firestore db =FirebaseConnection.initFireStoreDb().getFireStoreDB();
+        ApiFuture<WriteResult> writeResult = db.collection("user").document(id).delete();
+        return true;
     }
 }
