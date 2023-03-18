@@ -11,4 +11,5 @@ public interface UserService {
     Response<UserDto> updateUser(UserDto userDto) throws IOException, ExecutionException, InterruptedException;
 
     Response<UserDto> deleteUserById(UserDto userDto) throws Exception;
+    Response<UserDto> userLogin(UserDto userdto) throws IOException, ExecutionException, InterruptedException;
 }

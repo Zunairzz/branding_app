@@ -7,6 +7,7 @@ import com.example.branding_app.dataBase.UserRepository;
 import com.example.branding_app.dto.UserDto;
 import com.example.branding_app.model.User;
 import com.example.branding_app.services.UserService;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -88,6 +90,21 @@ public class UserServiceImplementation implements UserService {
         } else {
             logger.warn("User does not exist!");
             response = new Response<>(ResponseCode.BAD_REQUEST, "User does not exist!");
+        }
+        return response;
+    }
+
+    @Override
+    public Response<UserDto> userLogin(UserDto userdto) throws IOException, ExecutionException, InterruptedException {
+        logger.info("Check user exist or not");
+        List<QueryDocumentSnapshot> existing = this.userRepository.userLogin(userdto.getEmail(), userdto.getPassword());
+        Response<UserDto> response;
+        if (existing != null) {
+            logger.info("User found!");
+            response = new Response<>(ResponseCode.SUCCESS, "User Login successfully!");
+        } else {
+            logger.warn("User not found!");
+            response = new Response<>(ResponseCode.UNMODIFIED, "User does not found!");
         }
         return response;
     }
