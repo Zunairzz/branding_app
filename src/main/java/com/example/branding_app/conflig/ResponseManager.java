@@ -17,6 +17,16 @@ public class ResponseManager {
         return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.OK);
     }
 
+    public static ResponseEntity<String> sendSuccessResponse(String response) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("content-type", "application/json");
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("message", "success");
+        jsonObject.addProperty("response", response);
+        return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.OK);
+    }
+
     public static ResponseEntity<String> sendErrorResponse() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("content-type", "application/json");
@@ -26,13 +36,13 @@ public class ResponseManager {
         return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.BAD_REQUEST);
     }
 
-    public static ResponseEntity<String> sendSuccessResponse(String response) {
+    public static ResponseEntity<String> sendErrorResponse(String response) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("content-type", "application/json");
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("message", "success");
+        jsonObject.addProperty("message", "error");
         jsonObject.addProperty("response", response);
-        return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(jsonObject.toString(), headers, HttpStatus.BAD_REQUEST);
     }
 }

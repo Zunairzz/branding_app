@@ -44,7 +44,7 @@ public class UserController {
         if (response.getCode().getState()) {
             return ResponseManager.sendSuccessResponse(response.getData());
         } else {
-            return ResponseManager.sendErrorResponse();
+            return ResponseManager.sendErrorResponse(response.getMessage());
         }
     }
 
@@ -55,7 +55,18 @@ public class UserController {
         if (response.getCode().getState()) {
             return ResponseManager.sendSuccessResponse(response.getMessage());
         } else {
-            return ResponseManager.sendErrorResponse();
+            return ResponseManager.sendErrorResponse(response.getMessage());
+        }
+    }
+
+    @RequestMapping(value = GlobalConstants.LOGIN, method = RequestMethod.GET)
+    public ResponseEntity<String> userLogin(@RequestBody UserDto userDto) throws IOException, ExecutionException, InterruptedException {
+        logger.info("Login request receive from " + userDto.getEmail());
+        Response<UserDto> response = userService.userLogin(userDto);
+        if (response.getCode().getState()) {
+            return ResponseManager.sendSuccessResponse(response.getMessage());
+        } else {
+            return ResponseManager.sendErrorResponse(response.getMessage());
         }
     }
 }

@@ -11,7 +11,7 @@ public enum ResponseCode {
 
     RECORD_NOT_FOUND("Invalid request data",HttpStatus.UNPROCESSABLE_ENTITY, true),
 
-    BAD_REQUEST("Invalid request data",HttpStatus.BAD_REQUEST, true),
+    BAD_REQUEST("Invalid request data",HttpStatus.BAD_REQUEST, false),
 
     EMPTY_REQUEST("Empty request body, nothing changed",HttpStatus.NO_CONTENT, true),
 
